@@ -1,5 +1,9 @@
 #include "UI.h"
 
+UI::UI() {
+	open = true;
+}
+
 void UI::Show(std::vector<Object*>& objects, Object*& selected, Vector2 center) {
 	for (int i = 0; i < windows.size();i++) {
 		if (windows[i]->open) {
@@ -62,11 +66,23 @@ void UI::Show(std::vector<Object*>& objects, Object*& selected, Vector2 center) 
 		case RECT:
 			ImGui::InputFloat("Width", &(static_cast<Rect*>(selected)->width), 0.1, 0.5, "%.3f");
 			ImGui::InputFloat("Height", &(static_cast<Rect*>(selected)->height), 0.1, 0.5, "%.3f");
+			if (static_cast<Rect*>(selected)->width < 0) {
+				static_cast<Rect*>(selected)->width = 0;
+			}
+			if (static_cast<Rect*>(selected)->height < 0) {
+				static_cast<Rect*>(selected)->height = 0;
+			}
 			break;
 		case TRIANGLE:
-			ImGui::InputFloat("Total Base", &(static_cast<Triangle*>(selected)->b1), 0.1, 0.5, "%.3f");
-			ImGui::InputFloat("Base Diff", &(static_cast<Triangle*>(selected)->b2), 0.1, 0.5, "%.3f");
+			ImGui::InputFloat("Base", &(static_cast<Triangle*>(selected)->b1), 0.1, 0.5, "%.3f");
+			ImGui::InputFloat("Offset", &(static_cast<Triangle*>(selected)->b2), 0.1, 0.5, "%.3f");
 			ImGui::InputFloat("Height", &(static_cast<Triangle*>(selected)->height), 0.1, 0.5, "%.3f");
+			if (static_cast<Triangle*>(selected)->b1 < 0) {
+				static_cast<Triangle*>(selected)->b1 = 0;
+			}
+			if (static_cast<Triangle*>(selected)->height < 0) {
+				static_cast<Triangle*>(selected)->height = 0;
+			}
 			break;
 		case TRAPEZOID:
 			ImGui::InputFloat("Bottom Base", &(static_cast<Trapezoid*>(selected)->bottomBase), 0.1, 0.5, "%.3f");
@@ -74,6 +90,12 @@ void UI::Show(std::vector<Object*>& objects, Object*& selected, Vector2 center) 
 			ImGui::InputFloat("Height", &(static_cast<Trapezoid*>(selected)->h), 0.1, 0.5, "%.3f");
 			if (static_cast<Trapezoid*>(selected)->topBase < 0) {
 				static_cast<Trapezoid*>(selected)->topBase = 0;
+			}
+			if (static_cast<Trapezoid*>(selected)->bottomBase < 0) {
+				static_cast<Trapezoid*>(selected)->bottomBase = 0;
+			}
+			if (static_cast<Trapezoid*>(selected)->h < 0) {
+				static_cast<Trapezoid*>(selected)->h = 0;
 			}
 			if (static_cast<Trapezoid*>(selected)->topBase > static_cast<Trapezoid*>(selected)->bottomBase) {
 				static_cast<Trapezoid*>(selected)->topBase = static_cast<Trapezoid*>(selected)->bottomBase;
@@ -86,6 +108,9 @@ void UI::Show(std::vector<Object*>& objects, Object*& selected, Vector2 center) 
 			ImGui::SliderFloat("End Angle", &(static_cast<Circle*>(selected)->firstAngle), 0, 360, "%.3f");
 			if (static_cast<Circle*>(selected)->innerRadius > static_cast<Circle*>(selected)->outerRadius) {
 				static_cast<Circle*>(selected)->innerRadius = static_cast<Circle*>(selected)->outerRadius;
+			}
+			if (static_cast<Circle*>(selected)->outerRadius < 0) {
+				static_cast<Circle*>(selected)->outerRadius = 0;
 			}
 			break;
 		}
@@ -182,8 +207,8 @@ ShowResults::ShowResults(MomentCalculator m) {
 }
 
 void ShowResults::Show(std::vector<Object*>& objects, Object*& selected, Vector2 center, float area, std::vector<Window*>& windows) {
-	ImGui::Begin("Results", &open, ImGuiWindowFlags_NoMove);
-	ImGui::SetWindowPos(ImVec2(GetScreenWidth() / 2.2, GetScreenHeight() / 3));
+	ImGui::Begin("Results", &open);
+	//ImGui::SetWindowPos(ImVec2(GetScreenWidth() / 2.2, GetScreenHeight() / 3));
 	ImGui::SetWindowSize(ImVec2(350, 350));
 
 	ImGui::Text((std::string("Ix = ") + std::to_string(moment.Ix)).c_str());

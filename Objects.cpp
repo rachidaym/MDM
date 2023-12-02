@@ -4,14 +4,14 @@ Rect::Rect(char* n,Vector2 position,float w, float h) {
 	width = w;
 	height = h;
 	pos.x = position.x;
-	pos.y = position.y + h;
+	pos.y = position.y;
 	name = n;
 	type = RECT;
 }
 
 void Rect::CalculateCenter() {
 	center.x = pos.x + width / 2;
-	center.y = pos.y - height / 2;
+	center.y = pos.y + height / 2;
 }
 
 void Rect::CalculateArea() {
@@ -26,7 +26,7 @@ void Rect::CalculateMOI() {
 
 void Rect::Draw(const Axes& axes, Color color) {
 	float s = axes._scale;
-	DrawRectangle(axes.origin.x+s*pos.x, axes.origin.y-s*pos.y, s*width, s*height, color);
+	DrawRectangle(axes.origin.x+s*pos.x, axes.origin.y-s*pos.y - s*height, s*width, s*height, color);
 }
 
 Triangle::Triangle(char* n,Vector2 position, float h, float totalBase, float diffBase) {
@@ -99,10 +99,6 @@ void Circle::CalculateMOI() {
 	Iy = sign*(pow(outerRadius,4)-pow(innerRadius,4))*(b-a+0.5*(sin(2*b)-sin(2*a))) / 8;
 	Ix = sign*(pow(outerRadius, 4) - pow(innerRadius, 4)) * (b - a - 0.5 * (sin(2 * b) - sin(2 * a))) / 8;
 	Ixy = sign*(pow(outerRadius, 4) - pow(innerRadius, 4))*(sin(b)*sin(b) - sin(a)*sin(a)) / 8;
-
-	Ix -= area * center.y * center.y;
-	Iy -= area * center.x * center.x;
-	Ixy -= area * center.x * center.y;
 }
 
 void Circle::Draw(const Axes& axes, Color color) {

@@ -2,7 +2,6 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "imgui.h"
-#include "imgui_impl_raylib.h"
 #include "rlImGui.h"
 #include "Axes.h"
 #include "Objects.h"
@@ -14,6 +13,7 @@ class Renderer
 private:
 	Axes* mainAxes;
 	UI* ui;
+	ImFont* font;
 public:
 	bool shouldClose;
 	std::vector<Object*> objects;

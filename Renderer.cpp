@@ -102,7 +102,6 @@ void Renderer::Draw() {
 			DrawLineEx(Vector2{ mainAxes->origin.x - mainAxes->_ticksLength,i}, Vector2{mainAxes->origin.x + mainAxes->_ticksLength ,i}, mainAxes->_ticksThickness, LIGHTGRAY);
 		}
 	}
-
 	for (auto i : objects) {
 		if (i->mass > 0) {
 			if (i == selectedObject) {

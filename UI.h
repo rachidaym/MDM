@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdlib>
 
+
 class Window {
 public:
 	bool open;
@@ -58,6 +59,6 @@ public:
 	bool open;
 	float totalArea = 0;
 	void Show(std::vector<Object*>& objects, Object*& selected, Vector2 center);
-	UI() { open = true; };
+	UI();
 };
 
